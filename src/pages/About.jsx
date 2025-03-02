@@ -7,7 +7,7 @@ import Stat from "../assets/About/Stat.png";
 import Stat2 from "../assets/About/Stat2.png";
 import Stat3 from "../assets/About/Stat3.png";
 import Stat4 from "../assets/About/Stat4.png";
-import Services from "../components/Services";
+// import Services from "../components/Services";
 
 
 import { FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -106,7 +106,7 @@ export default function About() {
       </div>
 
       <div className="px-6 md:px-26 ">
-        <Services/>
+        {/* <Services/> */}
       </div>
     </div>
   );

@@ -28,7 +28,7 @@ export default function OurProduct() {
         <div>
             <Title title="Our products" />
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-6">
                 <span className="text-3xl font-semibold">Explore our products</span>
             </div>
 

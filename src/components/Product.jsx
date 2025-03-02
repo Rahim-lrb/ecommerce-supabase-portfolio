@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
+import { IoHeartOutline } from "react-icons/io5";
+
 
 export default function Product({ product, showRemove = false }) {
     const [hovered, setHovered] = useState(false);
@@ -9,7 +11,7 @@ export default function Product({ product, showRemove = false }) {
         <div className="bg-white transition-all duration-300 text-black">
             {/* Image Container */}
             <div
-                className="w-[270px] h-[250px] flex justify-center items-center bg-[#F5F5F5] relative overflow-hidden"
+                className="max-w-[260px] h-[240px] flex justify-center items-center bg-[#F5F5F5] relative overflow-hidden"
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
             >
@@ -26,8 +28,13 @@ export default function Product({ product, showRemove = false }) {
                         {added ? "Added to Cart" : "Add to Cart"}
                     </button>
                 </div>
+                {/* Heart Icon */}
+                <div className="absolute top-2 right-2 hover:text-white ">
+                    <button className="p-2 rounded-full bg-white transition hover:bg-primary duration-300">
+                        <IoHeartOutline size={22} />
+                    </button>
+                </div>
 
-                {/* Remove from Wishlist Icon */}
                 {showRemove && (
                     <div className="absolute top-2 right-2">
                         <button className="p-2 rounded-full bg-white transition">
@@ -37,7 +44,6 @@ export default function Product({ product, showRemove = false }) {
                 )}
             </div>
 
-            {/* Product Details */}
             <div className="mt-4">
                 <h3 className="text-md font-bold">{product.name}</h3>
                 <div className="flex space-x-3">

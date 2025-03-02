@@ -12,11 +12,11 @@ export default function Featured() {
     <div>
       <Title title="Featured" />
 
-      <div className="mt-4 flex items-center gap-4">
-        <span className="text-xl md:text-2xl lg:text-3xl font-semibold">New Arrival</span>
+      <div className="mt-4 flex items-center gap-4 mb-6">
+        <span className="text-xl md:text-2xl lg:text-3xl font-semibold mb-6">New Arrival</span>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Left Side - Featured 1 */}
         <div className="h-full">
           <img
@@ -53,7 +53,6 @@ export default function Featured() {
         </div>
       </div>
 
-      {/* Services Section */}
       <Services />
     </div>
   );

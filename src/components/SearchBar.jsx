@@ -25,7 +25,7 @@ function SearchBar() {
 
                 <Search
                     size={24}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-60"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-60 cursor-pointer"
                 />
             </div>
         </div>

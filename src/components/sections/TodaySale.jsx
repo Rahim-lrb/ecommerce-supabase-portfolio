@@ -1,10 +1,10 @@
 import React from "react";
-import Title from "./Title";
-import Products from "./Products";
-import sale1 from "../assets/sale 1.png";
-import sale2 from "../assets/sale 2.png";
-import sale3 from "../assets/sale 3.png";
-import sale4 from "../assets/sale 4.png";
+import Title from "../Title";
+import Products from "../Products";
+import sale1 from "../../assets/sale 1.png";
+import sale2 from "../../assets/sale 2.png";
+import sale3 from "../../assets/sale 3.png";
+import sale4 from "../../assets/sale 4.png";
 
 export default function TodaySale() {
     const flashSaleProducts = [
@@ -17,9 +17,8 @@ export default function TodaySale() {
     return (
         <div>
             <Title title="Today's" />
-
-            <div className="flex items-center gap-4">
-                <span className="text-3xl font-semibold">Flash Sale </span>
+            <div className="flex items-center gap-4 mb-6">
+                <span className="text-3xl font-semibold">Flash Sale</span>
 
                 <div className="flex items-center gap-2">
                     <TimeBlock label="Days" value="03" />

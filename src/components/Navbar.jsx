@@ -38,7 +38,7 @@ export default function Navbar() {
     ];
 
     return (
-        <div className="flex justify-between items-center px-6 py-7 sm:px-10 lg:px-26 relative cursor-pointer
+        <div className="flex justify-between items-center px-6 py-7 sm:px-10 lg:px-26 relative
             border-secondary border-b">
             {/* Logo */}
             <div className="">
@@ -60,15 +60,15 @@ export default function Navbar() {
             <div className="flex space-x-4 items-center">
                 <SearchBar className="opacity-60" />
 
-                {/* Wishlist */}
-                <div className="relative cursor-pointer">
+                {/* Wish */}
+                <Link to="/Wishlist" className="relative cursor-pointer">
                     <Heart className="opacity-60 hover:opacity-100 transition" />
                     {wishlistCount > 0 && (
                         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-                            {wishlistCount}
+                            {cartCount}
                         </span>
                     )}
-                </div>
+                </Link>
 
                 {/* Cart */}
                 <Link to="/cart" className="relative cursor-pointer">
@@ -81,37 +81,35 @@ export default function Navbar() {
                 </Link>
 
                 {/* User */}
+                {/* User */}
                 {session ? (
                     <div className="relative" id="user-menu" ref={menuRef}>
-                        {/* User Icon (Click to Toggle Menu) */}
+                        {/* <button
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            className="flex items-center gap-2 cursor-pointer p-1 bg-gray-600 rounded-full"
+                        >
+                            {session.user.profileImg ? (
+                                <img src={session.user.profileImg} alt="User" className="w-8 h-8 rounded-full" />
+                            ) : (
+                                <User className="w-8 h-8 rounded-full text-white" />
+                            )}
+                            <span className="text-sm font-medium hidden sm:block">{session.user.username}</span>
+                        </button> */}
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
-                            className="flex items-center justify-center w-10 h-10 bg-gray-700/50 text-white rounded-full transition hover:bg-opacity-90 focus:outline-none"
+                            className="flex items-center justify-center w-10 h-10 bg-primary text-white rounded-full transition hover:bg-opacity-90 focus:outline-none cursor:pointer"
                         >
                             <User className="w-5 h-5" />
                         </button>
 
                         {/* Dropdown Menu */}
                         {menuOpen && (
-                            <div className="absolute right-0 mt-2 w-52 z-50
-                             bg-gray-400/60 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 border border-gray-100">
+                            <div className="absolute right-0 mt-2 w-52 bg-gray-400/60 rounded-md backdrop-blur-lg border border-gray-100 z-50">
                                 <ul className="flex flex-col p-2 text-white text-sm">
                                     <li>
                                         <Link to="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-700/50 rounded" onClick={() => setMenuOpen(false)}>
                                             <UserCog className="w-4 h-4" />
                                             Manage Account
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/cart" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-700/50 rounded" onClick={() => setMenuOpen(false)}>
-                                            <ShoppingCart className="w-4 h-4" />
-                                            Cart
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/wishlist" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-700/50 rounded" onClick={() => setMenuOpen(false)}>
-                                            <Bookmark className="w-4 h-4" />
-                                            Wishlist
                                         </Link>
                                     </li>
                                     <li>
@@ -137,9 +135,9 @@ export default function Navbar() {
                     <div className="relative" id="user-menu" ref={menuRef}>
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
-                            className="flex items-center justify-center w-14 h-14 opacity-60 transition hover:bg-opacity-100 cursor-pointer"
+                            className="flex items-center justify-center w-10 h-10 opacity-60 hover:opacity-100 rounded-full transition hover:bg-opacity-90 focus:outline-none"
                         >
-                            <User className="w-6 h-6" />
+                            <User className="w-5 h-5" />
                         </button>
 
                         {/* Dropdown Menu */}
@@ -163,6 +161,7 @@ export default function Navbar() {
                         )}
                     </div>
                 )}
+
             </div>
         </div>
     );

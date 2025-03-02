@@ -9,6 +9,9 @@ import Register from "./pages/Register"
 import Login from "./pages/Login";
 import Contact from "./pages/Contact";
 import Wishlist from "./pages/Wishlist";
+import ProductDetails from "./pages/ProductDetails";
+import Category from "./pages/Category";
+
 
 function App() {
   return (
@@ -22,7 +25,11 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/wishlist" element={<Wishlist />} />
+        {/* <Route path="/wishlist" element={<Wishlist />} /> */}
+        <Route path="/product/:productId" element={<ProductDetails />} />
+        <Route path="/category/:categoryName" element={<Category />} />
+
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 

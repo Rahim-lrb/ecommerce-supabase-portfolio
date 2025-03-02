@@ -18,12 +18,14 @@ export default function TodaySale() {
         <div>
             <Title title="This month" />
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-6">
                 <span className="text-3xl font-semibold">Best selling products</span>
             </div>
 
             {/* Product List */}
+            {/* <Products products={flashSaleProducts} /> */}
             <Products products={flashSaleProducts} />
+
             <div className="text-center my-10">
                 <button className="bg-primary rounded-sm px-14 py-4 text-white font-medium capitalize">view all products</button>
             </div>

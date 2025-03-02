@@ -4,7 +4,7 @@ import { FaPhoneAlt, FaEnvelope } from "react-icons/fa"; // For Phone and Email 
 export default function Contact() {
     return (
         <div className="px-6 lg:px-26 py-16">
-            <div className="flex flex-col lg:flex-row">
+            <div className="flex flex-col lg:flex-row space-x-4 items-center">
                 {/* Left Side */}
                 <div className="flex flex-col justify-start w-full lg:w-1/3 mb-8 lg:mb-0 pr-8">
                     <div className="flex items-center mb-6">
