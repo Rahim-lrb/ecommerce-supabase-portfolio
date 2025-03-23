@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import sideImage from "../assets/Side Image.png";
-import { UserAuth } from "../contexts/authContext";
+import { useAuth } from "../contexts/authContext";
+
 
 export default function Login() {
-    const { signInUser, signInWithGoogle } = UserAuth();
+    const { signInUser, signInWithGoogle } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [error, setError] = useState(null);

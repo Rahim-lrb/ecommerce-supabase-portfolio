@@ -13,6 +13,10 @@ import ProductDetails from "./pages/ProductDetails";
 import Category from "./pages/Category";
 
 
+import AllProducts from "./pages/AllProducts";
+import CartPage from "./pages/Cart";
+
+
 function App() {
   return (
     <div>      
@@ -25,9 +29,17 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        {/* <Route path="/wishlist" element={<Wishlist />} /> */}
         <Route path="/product/:productId" element={<ProductDetails />} />
         <Route path="/category/:categoryName" element={<Category />} />
+
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<CartPage />} />
+
+
+        <Route path="/products" element={<AllProducts />} />
+        {/* <Route path="/products/category/:categoryName" element={<CategoryPage />} /> */}
+        {/* <Route path="/products/sale/:saleType" element={<SalePage />} /> */}
+        {/* <Route path="/product/:productId" element={<ProductDetails />} /> */}
 
 
         <Route path="*" element={<NotFound />} />

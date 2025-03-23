@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './contexts/authContext.jsx'
+import { WishlistProvider } from './contexts/wishlistContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthContextProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <WishlistProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </WishlistProvider>
     </AuthContextProvider>
   </StrictMode>,
 )

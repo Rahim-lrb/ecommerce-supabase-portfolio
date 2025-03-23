@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import supabase from "../supabaseClient";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const [session, setSession] = useState(null);
@@ -20,8 +20,8 @@ export const AuthContextProvider = ({ children }) => {
         }
 
         // Insert user into database
-        const { error: insertError } = await supabase.from("users").insert([{ 
-            id: data.user.id,  
+        const { error: insertError } = await supabase.from("users").insert([{
+            id: data.user.id,
             full_name: fullName,
             email: email.toLowerCase(),
         }]);
@@ -31,8 +31,7 @@ export const AuthContextProvider = ({ children }) => {
             return { success: false, error: insertError.message };
         }
 
-        // Auto login after signup
-        return signInUser(email, password);
+        return signInUser(email, password); // Auto login after signup
     };
 
     // Sign in existing user
@@ -55,15 +54,14 @@ export const AuthContextProvider = ({ children }) => {
                 redirectTo: window.location.origin,
             },
         });
-    
+
         if (error) {
             console.error("Google sign-in error:", error);
             return { success: false, error: error.message };
         }
-    
+
         return { success: true, data };
     };
-    
 
     // Sign out user
     const signOut = async () => {
@@ -72,9 +70,6 @@ export const AuthContextProvider = ({ children }) => {
             console.error("Error signing out:", error);
         }
     };
-
-
-    
 
     // Track authentication state
     useEffect(() => {
@@ -86,7 +81,6 @@ export const AuthContextProvider = ({ children }) => {
         getSession();
 
         const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-            console.log("Auth state changed:", session);
             setSession(session);
         });
 
@@ -102,4 +96,4 @@ export const AuthContextProvider = ({ children }) => {
     );
 };
 
-export const UserAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);

@@ -1,28 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../Title";
 import Products from "../Products";
-
-import product1 from "../../assets/product1.png";
-import product2 from "../../assets/product2.png";
-import product3 from "../../assets/product3.png";
-import product4 from "../../assets/product4.png";
-import product5 from "../../assets/product5.png";
-import product6 from "../../assets/product6.png";
-import product7 from "../../assets/product7.png";
-import product8 from "../../assets/product8.png";
-
+import supabase from "../../supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 export default function OurProduct() {
-    const flashSaleProducts = [
-        { id: 1, name: "Sale Item 1", price: "$29.99", image: product1, rating: 4 },
-        { id: 2, name: "Sale Item 1", price: "$29.99", image: product2, rating: 4 },
-        { id: 3, name: "Sale Item 1", price: "$29.99", image: product3, rating: 4 },
-        { id: 4, name: "Sale Item 1", price: "$29.99", image: product4, rating: 4 },
-        { id: 5, name: "Sale Item 1", price: "$29.99", image: product5, rating: 4 },
-        { id: 6, name: "Sale Item 1", price: "$29.99", image: product6, rating: 4 },
-        { id: 7, name: "Sale Item 1", price: "$29.99", image: product7, rating: 4 },
-        { id: 8, name: "Sale Item 1", price: "$29.99", image: product8, rating: 4 },
-    ];
+    const navigate = useNavigate();
+
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const { data, error } = await supabase.from("product").select("*").limit(8);
+            if (error) {
+                console.error("Error fetching products:", error);
+            } else {
+                setProducts(data);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     return (
         <div>
@@ -32,11 +29,12 @@ export default function OurProduct() {
                 <span className="text-3xl font-semibold">Explore our products</span>
             </div>
 
-            <Products products={flashSaleProducts} />
+            <Products products={products} />
             <div className="text-center my-10">
-                <button className="bg-primary rounded-sm px-14 py-4 text-white font-medium capitalize">view all products</button>
+                <button className="bg-primary rounded-sm px-14 py-4 text-white font-medium capitalize cursor-pointer" onClick={() => navigate("/products")}>
+                    view all products
+                </button>
             </div>
         </div>
     );
 }
-

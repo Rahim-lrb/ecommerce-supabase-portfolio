@@ -1,35 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../Title";
 import Products from "../Products";
-import sale1 from "../../assets/sale 1.png";
-import sale2 from "../../assets/sale 2.png";
-import sale3 from "../../assets/sale 3.png";
-import sale4 from "../../assets/sale 4.png";
+import supabase from "../../supabaseClient";
+import { useNavigate } from "react-router-dom";
 
-export default function TodaySale() {
-    const flashSaleProducts = [
-        { id: 1, name: "Sale Item 1", price: "$29.99", image: sale1, rating: 4 },
-        { id: 2, name: "Sale Item 2", price: "$49.99", image: sale2, rating: 5 },
-        { id: 3, name: "Sale Item 3", price: "$19.99", image: sale3, rating: 3 },
-        { id: 4, name: "Sale Item 4", price: "$39.99", image: sale4, rating: 5 },
-    ];
+export default function ThisMonth() {
+    const navigate = useNavigate();
+    const [bestSellingProducts, setBestSellingProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchBestSellingProducts = async () => {
+            const { data, error } = await supabase
+                .from("product")
+                .select("*")
+                .eq("type", "best-selling") // Only get best-selling products
+                .limit(4);
+
+            if (error) {
+                console.error("Error fetching best-selling products:", error);
+            } else {
+                setBestSellingProducts(data);
+            }
+        };
+
+        fetchBestSellingProducts();
+    }, []);
 
     return (
         <div>
-            <Title title="This month" />
-
+            <Title title="This Month" />
             <div className="flex items-center gap-4 mb-6">
-                <span className="text-3xl font-semibold">Best selling products</span>
+                <span className="text-3xl font-semibold">Best Selling Products</span>
             </div>
 
-            {/* Product List */}
-            {/* <Products products={flashSaleProducts} /> */}
-            <Products products={flashSaleProducts} />
+            <Products products={bestSellingProducts} />
 
             <div className="text-center my-10">
-                <button className="bg-primary rounded-sm px-14 py-4 text-white font-medium capitalize">view all products</button>
+                <button 
+                    className="bg-primary rounded-sm px-14 py-4 text-white font-medium capitalize cursor-pointer"
+                    onClick={() => navigate("/products?filter=best-selling")}
+                >
+                    View all products
+                </button>
             </div>
         </div>
     );
 }
-
