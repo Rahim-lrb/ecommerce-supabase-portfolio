@@ -7,6 +7,7 @@ import { Trash } from "lucide-react";
 export default function WishlistPage() {
     const { session } = useAuth();
     const [wishlist, setWishlist] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (session) {
@@ -16,7 +17,8 @@ export default function WishlistPage() {
 
     const fetchWishlist = async () => {
         if (!session) return;
-        
+
+        setLoading(true);
         const { data, error } = await supabase
             .from("wishlist")
             .select("product:product_id(*)")
@@ -27,6 +29,7 @@ export default function WishlistPage() {
         } else {
             setWishlist(data.map(item => item.product));
         }
+        setLoading(false);
     };
 
     const handleClearWishlist = async () => {
@@ -47,7 +50,26 @@ export default function WishlistPage() {
     return (
         <div className="px-26 py-10">
             <h1 className="text-2xl font-bold mb-6 text-center">Your Wishlist</h1>
-            {wishlist.length > 0 ? (
+
+            {loading ? (
+                // Skeleton Loader
+                <div className="space-y-6">
+                    {/* Button Skeleton */}
+                    <div className="h-10 w-48 mx-auto bg-gray-300 animate-pulse rounded"></div>
+
+                    {/* Product Skeletons */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {Array(4).fill(0).map((_, i) => (
+                            <div key={i} className="p-4 border rounded-md animate-pulse">
+                                <div className="h-40 bg-gray-300 rounded"></div>
+                                <div className="h-5 w-3/4 bg-gray-300 rounded mt-4"></div>
+                                <div className="h-5 w-1/2 bg-gray-300 rounded mt-2"></div>
+                                <div className="h-8 w-full bg-gray-300 rounded mt-4"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : wishlist.length > 0 ? (
                 <>
                     <button onClick={handleClearWishlist} className="block mx-auto mb-6 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg">
                         <Trash size={16} className="inline-block mr-2" /> Clear Wishlist

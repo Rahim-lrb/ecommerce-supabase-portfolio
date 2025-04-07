@@ -8,12 +8,14 @@ import Logo from "../assets/Logo.png";
 import SearchBar from "./SearchBar";
 import { useAuth } from "../contexts/authContext";
 import { useWishlist } from "../contexts/wishlistContext";
+import { useCart } from "../contexts/cartContext"; // Import the cart context
 
 export default function Navbar() {
     const { session, signOut } = useAuth();
-    const { wishlist } = useWishlist(); // Get live wishlist data
-    const wishlistCount = wishlist.length; // Real-time wishlist count
-    const cartCount = 5; // Replace with actual cart state if using cart context
+    const { wishlist } = useWishlist();
+    const { cart } = useCart(); // Get live cart data
+    const wishlistCount = wishlist.length;
+    const cartCount = cart.length; // Fix: Get cart count dynamically
 
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
@@ -46,7 +48,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center px-6 py-7 sm:px-10 lg:px-26 relative border-secondary border-b">
             {/* Logo */}
             <div>
-                <img src={Logo} alt="Logo" />
+                <Link to={"/"}><img src={Logo} alt="Logo" /></Link>
             </div>
 
             {/* Links */}

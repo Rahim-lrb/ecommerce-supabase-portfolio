@@ -1,7 +1,46 @@
-import React from "react";
-import { FaPhoneAlt, FaEnvelope } from "react-icons/fa"; // For Phone and Email Icons
+import React, { useState } from "react";
+import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
 export default function Contact() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+    });
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(null);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setSuccess(null);
+
+        try {
+            const response = await fetch("https://vubxtablrvxzvhmpcsey.supabase.co/functions/v1/send-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                setSuccess("Message sent successfully!");
+                setFormData({ name: "", email: "", phone: "", message: "" });
+            } else {
+                setSuccess(`Error: ${result.error || "Failed to send message"}`);
+            }
+        } catch (error) {
+            setSuccess("Error: Unable to send message");
+        }
+
+        setLoading(false);
+    };
+
     return (
         <div className="px-6 lg:px-26 py-16">
             <div className="flex flex-col lg:flex-row space-x-4 items-center">
@@ -35,60 +74,62 @@ export default function Contact() {
 
                 {/* Right Side (Form) */}
                 <div className="flex flex-col w-full lg:w-2/3">
-                    <form>
-                        {/* Name, Email, Phone on the same line */}
+                    <form onSubmit={handleSubmit}>
                         <div className="flex flex-col sm:flex-row sm:space-x-6 mb-6">
-                            <div className="flex flex-col w-full sm:w-1/3 mb-4 sm:mb-0">
-                                <input
-                                    type="text"
-                                    id="name"
-                                    className="px-4 py-4 bg-[#F5F5F5] rounded-md text-primary"
-                                    placeholder="Your Name*"
-                                    required
-                                />
-                            </div>
-
-                            <div className="flex flex-col w-full sm:w-1/3 mb-4 sm:mb-0">
-                                <input
-                                    type="email"
-                                    id="email"
-                                    className="px-4 py-4 bg-[#F5F5F5] rounded-md text-primary"
-                                    placeholder="Your Email*"
-                                    required
-                                />
-                            </div>
-
-                            <div className="flex flex-col w-full sm:w-1/3 mb-4 sm:mb-0">
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    className="px-4 py-4 bg-[#F5F5F5] rounded-md text-primary"
-                                    placeholder="Your Phone*"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Message Textarea */}
-                        <div className="mb-6">
-                            <textarea
-                                id="message"
-                                rows="8"
-                                className="w-full px-4 py-4 bg-[#F5F5F5] rounded-md text-primary"
-                                placeholder="Your Message*"
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="px-4 py-4 bg-[#F5F5F5] rounded-md text-primary w-full sm:w-1/3 mb-4 sm:mb-0"
+                                placeholder="Your Name*"
                                 required
-                            ></textarea>
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="px-4 py-4 bg-[#F5F5F5] rounded-md text-primary w-full sm:w-1/3 mb-4 sm:mb-0"
+                                placeholder="Your Email*"
+                                required
+                            />
+                            <input
+                                type="tel"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                className="px-4 py-4 bg-[#F5F5F5] rounded-md text-primary w-full sm:w-1/3 mb-4 sm:mb-0"
+                                placeholder="Your Phone*"
+                                required
+                            />
                         </div>
 
-                        {/* Send Button */}
+                        <textarea
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            rows="8"
+                            className="w-full px-4 py-4 bg-[#F5F5F5] rounded-md text-primary mb-6"
+                            placeholder="Your Message*"
+                            required
+                        ></textarea>
+
                         <div className="flex justify-center sm:justify-end">
                             <button
                                 type="submit"
                                 className="px-8 py-3 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none"
+                                disabled={loading}
                             >
-                                Send Message
+                                {loading ? "Sending..." : "Send Message"}
                             </button>
                         </div>
+
+                        {success && (
+                            <p className={`mt-4 text-center ${success.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+                                {success}
+                            </p>
+                        )}
                     </form>
                 </div>
             </div>
