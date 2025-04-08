@@ -39,42 +39,67 @@ export default function CartPage() {
         setTotal(totalPrice);
     };
 
+    const removeFromCart = async (productId) => {
+        if (!session) return;
+
+        const updatedCart = cart.filter(product => product.id !== productId);
+        setCart(updatedCart);
+        calculateTotal(updatedCart);
+
+        const { error } = await supabase
+            .from("cart")
+            .delete()
+            .eq("user_id", session.user.id)
+            .eq("product_id", productId);
+
+        if (error) {
+            console.error("Error removing product:", error);
+            fetchCart();
+        }
+    };
+
+    const updateQuantity = async (productId, newQuantity) => {
+        if (!session || newQuantity < 1) return;
+
+        const { error } = await supabase
+            .from("cart")
+            .update({ quantity: newQuantity })
+            .eq("user_id", session.user.id)
+            .eq("product_id", productId);
+
+        if (error) {
+            console.error("Error updating quantity:", error);
+            return;
+        }
+
+        const updatedCart = cart.map((item) =>
+            item.id === productId ? { ...item, quantity: newQuantity } : item
+        );
+        setCart(updatedCart);
+        calculateTotal(updatedCart);
+    };
+
     return (
         <div className="max-w-5xl mx-auto px-6 py-24">
             {loading ? (
-                // Improved Skeleton Loader
                 <div className="space-y-6">
-                    {/* Table Header Skeleton */}
                     <div className="grid grid-cols-5 gap-x-12 pb-4 border-b border-gray-300">
                         {["Product", "Price", "Quantity", "Subtotal", "Remove"].map((_, i) => (
                             <div key={i} className="h-5 w-24 bg-gray-300 animate-pulse rounded"></div>
                         ))}
                     </div>
-
-                    {/* Skeleton Cart Items */}
                     {Array(3).fill(0).map((_, i) => (
                         <div key={i} className="grid grid-cols-5 gap-x-12 items-center py-6 border-b border-gray-200/50">
-                            {/* Image & Name Skeleton */}
                             <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 bg-gray-300 animate-pulse rounded"></div>
                                 <div className="h-5 w-36 bg-gray-300 animate-pulse rounded"></div>
                             </div>
-
-                            {/* Price Skeleton */}
                             <div className="h-5 w-16 bg-gray-300 animate-pulse rounded"></div>
-
-                            {/* Quantity Selector Skeleton */}
                             <div className="h-8 w-16 bg-gray-300 animate-pulse rounded"></div>
-
-                            {/* Subtotal Skeleton */}
                             <div className="h-5 w-16 bg-gray-300 animate-pulse rounded"></div>
-
-                            {/* Remove Button Skeleton */}
                             <div className="h-5 w-5 bg-gray-300 animate-pulse rounded-full"></div>
                         </div>
                     ))}
-
-                    {/* Footer Skeleton */}
                     <div className="flex justify-between mt-8">
                         <div className="h-10 w-40 bg-gray-300 animate-pulse rounded"></div>
                         <div className="h-40 w-64 bg-gray-300 animate-pulse rounded"></div>
@@ -82,7 +107,6 @@ export default function CartPage() {
                 </div>
             ) : (
                 <>
-                    {/* Actual Cart Items Rendering */}
                     {cart.length > 0 ? (
                         <>
                             <div className="grid grid-cols-5 gap-x-12 font-medium text-md pb-4 border-b border-gray-300">
@@ -95,48 +119,50 @@ export default function CartPage() {
 
                             {cart.map((product) => (
                                 <div key={product.id} className="grid grid-cols-5 gap-x-12 items-center py-6 border-b border-gray-200/50">
-                                    {/* Product Image & Name */}
                                     <div className="flex items-center gap-4">
                                         <img src={product.image_main} alt={product.name} className="w-16 h-16 object-contain rounded" />
                                         <p className="font-medium">{product.name}</p>
                                     </div>
 
-                                    {/* Price */}
                                     <p className="text-gray-700 font-medium">${product.price.toFixed(2)}</p>
 
-                                    {/* Quantity Selector */}
                                     <div className="flex items-center">
                                         <div className="relative flex flex-col items-center border rounded-md w-16 border-gray-200">
                                             <span className="text-lg font-medium py-2 mr-6">{product.quantity.toString().padStart(2, '0')}</span>
                                             <div className="absolute right-0 top-0 bottom-0 flex flex-col">
-                                                <button className="p-1 rounded-tr-md">
+                                                <button
+                                                    onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                                                    className="p-1 rounded-tr-md"
+                                                >
                                                     <ChevronUp size={14} />
                                                 </button>
-                                                <button className="p-1 rounded-br-md">
+                                                <button
+                                                    onClick={() => updateQuantity(product.id, product.quantity - 1)}
+                                                    className="p-1 rounded-br-md"
+                                                    disabled={product.quantity === 1}
+                                                >
                                                     <ChevronDown size={14} />
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Subtotal */}
                                     <p className="text-gray-800 font-medium">${(product.price * product.quantity).toFixed(2)}</p>
 
-                                    {/* Remove Button */}
-                                    <button className="text-gray-500 hover:text-red-500 transition duration-300">
+                                    <button
+                                        onClick={() => removeFromCart(product.id)}
+                                        className="text-gray-500 hover:text-red-500 transition duration-300"
+                                    >
                                         <X size={18} />
                                     </button>
                                 </div>
                             ))}
 
-                            {/* Footer Section */}
                             <div className="flex justify-between items-start mt-8">
-                                {/* Return to Shop Button */}
                                 <button className="text-black border-gray-400 px-10 border py-3 mt-6 duration-300 hover:bg-gray-100 rounded-lg font-semibold">
                                     Return to Shop
                                 </button>
 
-                                {/* Cart Summary Box */}
                                 <div className="p-6 rounded-md shadow-md w-100 border mt-8 border-gray-400">
                                     <h2 className="text-lg font-medium mb-4">Cart Total</h2>
                                     <div className="flex justify-between py-2 border-b border-gray-400 text-md">
