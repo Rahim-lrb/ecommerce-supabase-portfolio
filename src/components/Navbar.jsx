@@ -8,9 +8,11 @@ import Logo from "../assets/Logo.png";
 import SearchBar from "./SearchBar";
 import { useAuth } from "../contexts/authContext";
 import { useWishlist } from "../contexts/wishlistContext";
-import { useCart } from "../contexts/cartContext"; // Import the cart context
+import { useCart } from "../contexts/cartContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+    const navigate = useNavigate();
     const { session, signOut } = useAuth();
     const { wishlist } = useWishlist();
     const { cart } = useCart(); // Get live cart data
@@ -20,6 +22,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
     const location = useLocation();
+    // console.log(session.user)
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -58,7 +61,7 @@ export default function Navbar() {
                         <Link
                             to={link.path}
                             className={`relative px-4 py-2 transition-all duration-200 ${
-                                location.pathname === link.path ? "text-blue-400 font-bold" : ""
+                                location.pathname === link.path ? "text-primary font-bold" : ""
                             }`}
                         >
                             {link.name}
@@ -121,6 +124,16 @@ export default function Navbar() {
                                         </li>
                                         <li>
                                             <Link
+                                                to="/profile"
+                                                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-700/50 rounded"
+                                                onClick={() => setMenuOpen(false)}
+                                            >
+                                                <UserCog className="w-4 h-4" />
+                                                Manage Account
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
                                                 to="/orders"
                                                 className="flex items-center gap-2 px-4 py-2 hover:bg-gray-700/50 rounded"
                                                 onClick={() => setMenuOpen(false)}
@@ -144,6 +157,7 @@ export default function Navbar() {
                                                 onClick={() => {
                                                     signOut();
                                                     setMenuOpen(false);
+                                                    navigate("/");
                                                 }}
                                                 className="flex items-center gap-2 w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/20 hover:text-red-600 rounded"
                                             >

@@ -79,31 +79,34 @@ export default function Product({ product, showRemove = false, setWishlist, setC
     };
 
     return (
-        <Link to={`/product/${product.id}`} className="block">
-            <div className="bg-white transition-all duration-300 text-black cursor-pointer">
-                <div className="relative max-w-[260px] h-[240px] flex justify-center items-center bg-[#F5F5F5]">
-                    <img src={product.image_main} alt={product.name} className="object-cover" />
+        <div className="bg-white transition-all duration-300 text-black cursor-pointer max-w-[260px]">
+            <div className="relative h-[240px] flex justify-center items-center bg-[#F5F5F5]">
+                <Link to={`/product/${product.id}`} className="absolute inset-0 z-0">
+                    <img src={product.image_main} alt={product.name} className="object-cover w-full h-full" />
+                </Link>
 
-                    {/* Wishlist Button */}
-                    <div className="absolute top-2 right-2">
-                        <button className="p-2 rounded-full bg-white transition" onClick={toggleWishlist}>
-                            {isLiked ? <IoHeart size={22} color="red" /> : <IoHeartOutline size={22} />}
-                        </button>
-                    </div>
-
-                    {/* Cart Button */}
-                    <div className="absolute top-14 right-2">
-                        <button className="p-2 rounded-full bg-white transition" onClick={toggleCart}>
-                            {isInCart ? <IoCart size={22} color="blue" /> : <IoCartOutline size={22} />}
-                        </button>
-                    </div>
+                {/* Wishlist Button */}
+                <div className="absolute top-2 right-2 z-10">
+                    <button className="p-2 rounded-full bg-white transition" onClick={toggleWishlist}>
+                        {isLiked ? <IoHeart size={22} color="red" /> : <IoHeartOutline size={22} />}
+                    </button>
                 </div>
 
+                {/* Cart Button */}
+                <div className="absolute top-14 right-2 z-10">
+                    <button className="p-2 rounded-full bg-white transition" onClick={toggleCart}>
+                        {isInCart ? <IoCart size={22} color="blue" /> : <IoCartOutline size={22} />}
+                    </button>
+                </div>
+            </div>
+
+            <Link to={`/product/${product.id}`}>
                 <div className="mt-4">
                     <h3 className="text-md font-bold">{product.name}</h3>
                     <p className="text-primary font-semibold">$ {product.price}</p>
                 </div>
-            </div>
-        </Link>
+            </Link>
+        </div>
+
     );
 }

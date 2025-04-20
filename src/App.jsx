@@ -15,6 +15,7 @@ import Category from "./pages/Category";
 
 import AllProducts from "./pages/AllProducts";
 import CartPage from "./pages/Cart";
+import NotFound from "./pages/Notfound"
 
 
 function App() {
@@ -37,12 +38,8 @@ function App() {
 
 
         <Route path="/products" element={<AllProducts />} />
-        {/* <Route path="/products/category/:categoryName" element={<CategoryPage />} /> */}
-        {/* <Route path="/products/sale/:saleType" element={<SalePage />} /> */}
-        {/* <Route path="/product/:productId" element={<ProductDetails />} /> */}
 
-
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />

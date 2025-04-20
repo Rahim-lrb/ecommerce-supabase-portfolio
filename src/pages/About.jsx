@@ -11,6 +11,11 @@ import Stat4 from "../assets/About/Stat4.png";
 
 
 import { FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { CiTwitter } from "react-icons/ci";
+import { SlSocialLinkedin } from "react-icons/sl";
+import { FiLinkedin } from "react-icons/fi";
+
+
 
 export default function About() {
   const makers = [
@@ -51,7 +56,7 @@ export default function About() {
         </div>
 
         <div className="mt-10 md:mt-0 md:w-1/2">
-          <img src={about} alt="Our Story Image" className="w-[#705px] h-[#609px]"/>
+          <img src={about} alt="Our Story Image" className="w-[#705px] h-[#609px]" />
         </div>
       </div>
 
@@ -89,16 +94,16 @@ export default function About() {
               className="w-[#350px] h-[400px] object-cover mb-4 rounded-md"
             />
             <h3 className="text-2xl font-medium">{maker.name}</h3>
-            <p className="text-sm text-gray-600">{maker.role}</p>
+            <p className="text-sm text-gray-900">{maker.role}</p>
             <div className="flex gap-4 mt-4">
               <a href={maker.twitter} target="_blank" rel="noopener noreferrer">
-                <FaTwitter className="text-gray-700 w-5 h-5" />
+                <CiTwitter className="text-gray-700 w-5 h-5 stroke-[1] hover:text-gray-900" />
               </a>
               <a href={maker.instagram} target="_blank" rel="noopener noreferrer">
-                <FaInstagram className="text-gray-700 w-5 h-5" />
+                <FaInstagram className="text-gray-700 w-5 h-5 hover:text-gray-900" />
               </a>
               <a href={maker.linkedin} target="_blank" rel="noopener noreferrer">
-                <FaLinkedin className="text-gray-700 w-5 h-5" />
+                <FiLinkedin className="text-gray-700 w-5 h-5 stroke-[2] hover:text-gray-900" />
               </a>
             </div>
           </div>
